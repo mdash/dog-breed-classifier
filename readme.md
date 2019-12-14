@@ -12,6 +12,10 @@ To get a copy of the project up and running on your local machine:
 
 3. Execute ```streamlit run app_dog_breeds.py``` on your terminal
 
+4. Choose any of the sample images from the ```images_temp``` folder to test out the app
+
+Note: I don't own any of the images in the specified folder and these are just provided so that we can test out the app out of the box. Please feel free to use your own images.
+
 ### Prerequisites
 
 Please refer to the ```requirements.txt``` file for packages that are required for executing the app.
