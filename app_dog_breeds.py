@@ -8,12 +8,14 @@ from glob import glob
 from keras.applications.resnet50 import preprocess_input, decode_predictions
 from keras.applications.resnet50 import ResNet50
 from keras.preprocessing import image
+from keras.models import model_from_json
+import pickle
 
 # custom functions
 from extract_bottleneck_features import *
 
 
-@st.cache
+# @st.cache
 def init_resnet50():
     # define ResNet50 model
 
@@ -21,7 +23,7 @@ def init_resnet50():
     return ResNet50_model
 
 
-@st.cache
+# @st.cache
 def path_to_tensor(img_path):
     # loads RGB image as PIL.Image.Image type
     img = image.load_img(img_path, target_size=(224, 224))
@@ -31,7 +33,7 @@ def path_to_tensor(img_path):
     return np.expand_dims(x, axis=0)
 
 
-@st.cache
+# @st.cache
 def ResNet50_predict_labels(img_path):
     # returns prediction vector for image located at img_path
 
@@ -39,14 +41,14 @@ def ResNet50_predict_labels(img_path):
     img = preprocess_input(path_to_tensor(img_path))
     return np.argmax(ResNet50_model.predict(img))
 
-@st.cache
+# @st.cache
 def dog_detector(img_path):
     # returns true if dog is detected in the passed image
 
     prediction = ResNet50_predict_labels(img_path)
     return ((prediction <= 268) & (prediction >= 151)) 
 
-@st.cache
+# @st.cache
 def face_detector(img_path):
 
     # extract pre-trained face detector
@@ -57,19 +59,31 @@ def face_detector(img_path):
     return len(faces) > 0
 
 
-@st.cache
+# @st.cache
 def Inception_predict_breed(img_path):
     # Predict the breed of dog using Inceptionv3 pre-trained network
     
+    # Load dog breed labels
+    dog_names = pickle.load('dog_names.pkl')
+
+    ### Import model
+    with open('saved_models\inception_model.json', 'rb') as model_json_file:
+        Inception_model = model_from_json(model_json_file.read())
+
+    # Load model weights
+    Inception_model.load_weights('saved_models\weights.best.Inception.hdf5')
+
     # extract bottleneck features
     bottleneck_feature = extract_InceptionV3(path_to_tensor(img_path))
+    
     # obtain predicted vector
     predicted_vector = Inception_model.predict(bottleneck_feature)
+    
     # return dog breed that is predicted by the model
     return dog_names[np.argmax(predicted_vector)]
 
 
-@st.cache
+# @st.cache
 def predict_dog_breed(img_path):
     # predict the breed of the dog based on input image
     
@@ -87,6 +101,7 @@ def predict_dog_breed(img_path):
         message_string = "Error: The image doesn't seem to be that of a human or a dog. Please try a different image" 
         # print(message_string)
     return message_string
+
 
 def get_subfolder_names():
     # function to get all folder names in the app folder
