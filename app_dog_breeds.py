@@ -60,19 +60,9 @@ def face_detector(img_path):
 
 
 # @st.cache
-def Inception_predict_breed(img_path):
+def Inception_predict_breed(img_path, Inception_model, dog_names):
     # Predict the breed of dog using Inceptionv3 pre-trained network
     
-    # Load dog breed labels
-    dog_names = pickle.load('dog_names.pkl')
-
-    ### Import model
-    with open('saved_models\inception_model.json', 'rb') as model_json_file:
-        Inception_model = model_from_json(model_json_file.read())
-
-    # Load model weights
-    Inception_model.load_weights('saved_models\weights.best.Inception.hdf5')
-
     # extract bottleneck features
     bottleneck_feature = extract_InceptionV3(path_to_tensor(img_path))
     
@@ -84,14 +74,14 @@ def Inception_predict_breed(img_path):
 
 
 # @st.cache
-def predict_dog_breed(img_path):
+def predict_dog_breed(img_path, Inception_model, dog_names):
     # predict the breed of the dog based on input image
     
     dog_detected = dog_detector(img_path)
     human_detected = face_detector(img_path)
     image = Image.open(img_path)
     if dog_detected or human_detected:
-        dog_breed = Inception_predict_breed(img_path)
+        dog_breed = Inception_predict_breed(img_path, Inception_model, dog_names)
         dog_breed = dog_breed[dog_breed.find('.')+1:]
         dog_breed = dog_breed.replace('_'," ")
         message_string = ('The photo is of a ' + dog_breed) if dog_detected\
@@ -118,6 +108,19 @@ def get_file_names(subfolder_name):
     file_list = next(os.walk(cwd + "\\" + subfolder_name))[2]
     return file_list
 
+def load_model_labels():
+    # Load dog breed labels
+    with open('dog_names.pkl', 'rb') as dog_names_file:
+        dog_names = pickle.load(dog_names_file)
+
+    ### Import model
+    with open('saved_models\inception_model.json', 'rb') as model_json_file:
+        Inception_model = model_from_json(model_json_file.read())
+
+    # Load model weights
+    Inception_model.load_weights('saved_models\weights.best.Inception.hdf5')
+    
+    return dog_names, Inception_model
 
 def main():
 
@@ -146,8 +149,15 @@ def main():
         st.write('Please provide a valid image file')
 
     try:
+        # load model and dog labels
+        dog_names, Inception_model = load_model_labels()
+    except Exception as e:
+        print("Error: Couldn't find required files", e)
+        
+
+    try:
         # predict dog breed and display text
-        st.write(predict_dog_breed(img_path))
+        st.write(predict_dog_breed(img_path, Inception_model, dog_names))
     except Exception as e:
         st.write('Prediction failed. Please try again', e)
 
