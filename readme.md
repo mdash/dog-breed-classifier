@@ -41,7 +41,7 @@ A pre-trained Inceptionv3 model is used for feature extraction and subsequent la
 
 A snapshot of the architecture (post pretrained Inceptionv3 features) is added below for reference.
 
-<img src="Pretrained_Inception_Final_Layers.png" width="200">
+<img src="Pretrained_Inception_Final_Layers.png" width="600">
 
 ### Instructions to get the notebook running
 
