@@ -43,6 +43,14 @@ A snapshot of the architecture (post pretrained Inceptionv3 features) is added b
 
 <img src="Pretrained_Inception_Final_Layers.png" width="600">
 
+#### Metrics used to assess performance
+
+Accuracy on the test dataset was used to assess the performance of the model. A baseline performance based on random guessing would be ~1% (for 133 classes). The model performs ~80x better with a classification accuracy of ~80% on the test dataset.
+
+#### Data preparation and exploration
+
+Please refer to the notebook (dog_breeds.ipynb/dog_breeds.html) for more information. Instructions to get the notebook up and running are in the section below.
+
 ### Instructions to get the notebook running
 
 The notebook will help you with additional steps that were taken to arrive at the project objectives. Please follow the steps below to get the notebook up and running. Alternately, use the html file provided to get a static view of the analysis
