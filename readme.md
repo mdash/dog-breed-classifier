@@ -29,16 +29,15 @@ To get a copy of the project up and running on your local machine:
 
 5. Use the dropdown on the app to choose any of the sample images from the ```images_temp``` folder to test out the app. See the image below for a snapshot of the folder and image selection pane.
 
-    <img src="Documentation_app_1.png" width="200">
+    ![alt text](./Documentation_app_1.png "Dropdown Image Select")
 
 6. The app takes some time to load and classify the image. A loading icon will be shown on the top left corner of your browser while the app is loading and classifying the image. 
 
-    <img src="Documentation_app_2.png" width="200">
+    ![alt text](./Documentation_app_2.png "Loading")
 
 7. Please wait until the output text is printed below the image. E.g. for the reference image below the predicted dog breed "Golden retriever" is printed below the image after it is loaded.
 
-    <img src="Documentation_app_3.png" width="400">
-
+    ![alt text](./Documentation_app_3.png "Successful Classification!")    
 
 Note: I don't own any of the images in the specified folder and these are just provided so that we can test out the app out of the box. Please feel free to use your own images.
 
