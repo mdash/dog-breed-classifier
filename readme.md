@@ -6,14 +6,39 @@ A basic classifier application that takes an image and predicts the breed of dog
 
 To get a copy of the project up and running on your local machine:
 
-1. Download a copy of the repository to your local machine
+1. Clone the repository and navigate to the downloaded folder. Run the code below in your terminal CLI:
+    
+    ```	
+    git clone https://github.com/mdash/dog-breed-classifier
+    cd dog-breed-classifier
+    ```
 
-2. Refer to the requirements and get the requisite packages installed
-```pip install -r /path/to/dog-breed-classifier/requirements.txt```
+2. Refer to the requirements and get the requisite packages installed. Run the code below in your terminal CLI
 
-3. Execute ```streamlit run app_dog_breeds.py``` on your terminal
+        pip install -r requirements.txt
 
-4. Choose any of the sample images from the ```images_temp``` folder to test out the app
+    If you use anaconda, first run the command below in your terminal CLI before the command above
+        
+        conda activate
+
+3. Next, execute the following command on your terminal CLI
+    
+        streamlit run app_dog_breeds.py
+
+4. This should open up a browser window with the app running on it.
+
+5. Use the dropdown on the app to choose any of the sample images from the ```images_temp``` folder to test out the app. See the image below for a snapshot of the folder and image selection pane.
+
+    <img src="Documentation_app_1.png" width="200">
+
+6. The app takes some time to load and classify the image. A loading icon will be shown on the top left corner of your browser while the app is loading and classifying the image. 
+
+    <img src="Documentation_app_2.png" width="200">
+
+7. Please wait until the output text is printed below the image. E.g. for the reference image below the predicted dog breed "Golden retriever" is printed below the image after it is loaded.
+
+    <img src="Documentation_app_3.png" width="400">
+
 
 Note: I don't own any of the images in the specified folder and these are just provided so that we can test out the app out of the box. Please feel free to use your own images.
 
