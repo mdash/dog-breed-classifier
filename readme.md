@@ -123,9 +123,11 @@ The training dataset consisted of the following:
     - This model was able to achieve a ~78% accuracy on the test set - achieving 80x the baseline!! 
 
 **Steps for improving the implementation**
+
 The implementation can be further improved by applying some data augmentation techniques and trying out GANs for the problem. This would lead to more training data, which in turn would improve the generalizability of the model.
 
 ##### Results
+
 - The Inceptionv3 model was able to obtain an accuracy of 78% on the test set in the classification task. This was translated to an app that an end user can take to perform dog breed classification on their image of choice.
 
 For more details please refer to the ipynb notebook with the steps of the process documented. Please refer to the steps to get the notebook up and running below
