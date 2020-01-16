@@ -71,9 +71,67 @@ A snapshot of the architecture (post pretrained Inceptionv3 features) is added b
 
 Accuracy on the test dataset was used to assess the performance of the model. A baseline performance based on random guessing would be ~1% (for 133 classes). The model performs ~80x better with a classification accuracy of ~80% on the test dataset.
 
-#### Data preparation and exploration
+Accuracy is a sensible metric here because it gives us a tangible measure which we can translate to real world performance. Further, it makes comparison with baseline possible. In a classificaiton problem such as this, with 133 labels, higher accuracy can be a good benchmark to aim for. Other metrics can still be used but accuracy was used because of easy interpretation and communication to the end user of the app in terms of what they can expect the model to output.
 
-Please refer to the notebook (dog_breeds.ipynb/dog_breeds.html) for more information. Instructions to get the notebook up and running are in the section below.
+#### Analysis
+
+##### Features
+This being an image classification task, the input is an image file with the RGB values of the image being the input features. The training data consisted of images of dogs classified into folders based on dog breeds and a set of images of human faces.  
+
+##### Image data summary
+The training dataset consisted of the following:
+- 8351 dog images
+- 13233 human images
+
+##### Methodology
+
+**Pre-Processing steps**
+- The input dog images dataset was split into train, test and validation sets with the following distribution:
+    - There are 6680 training images
+    - There are 835 validation images.
+    - There are 836 test images.
+- The color images in the input dataset are converted to 4D tensora suitable for supplying to a Keras CNN.
+    - The image is loaded and resized to a square image that is $224 \times 224$ pixels.
+    - Next, the image is converted to an array, which is then resized to a 4D tensor.
+    - In this case, since we are working with color images, each image has three channels.
+    - The output tensor for an image has the dimensions as specified below
+    $$
+    (1, 224, 224, 3).
+    $$
+- Getting the 4D tensor ready for ResNet-50, and for any other pre-trained model in Keras, requires some additional processing.
+    - First, the RGB image is converted to BGR by reordering the channels.
+    - All pre-trained models have the additional normalization step that the mean pixel (expressed in RGB as $[103.939, 116.779, 123.68]$ and calculated from all pixels in all images in ImageNet) must be subtracted from every pixel in each image
+- The images were also rescaled by dividing every pixel in every image by 255
+
+**Implementation of solution**
+1. A CNN was created from scratch to obtain a test accuracy of at least 1% (baseline for random guessing).
+    - The focus was on simplicity as more parameters would lead to longer training
+    - A couple of dropout layers were added just to ensure that we aren't overfitting our model to the training sample.
+    - CNNs with MaxPooling and Average pooling layers are used to reduce the dimensionality and faster computation with the dense layers
+
+    ![alt text](./Documentation_CNN_scratch.PNG "CNN model architecture")
+
+    - The model is run for 10 epochs and a batch size of 20 to achieve an accuracy of 4% on the test set - which is more than 4x the baseline accuracy!
+
+2. Next a transfer learning methodology was tried out to reduce the training time and use industry proven models to ramp up the accuracy
+    - A VGG16 model was used for this which was able to achieve a ~45% accuracy
+    - The model uses the the pre-trained VGG-16 model as a fixed feature extractor, where the last convolutional output of VGG-16 is fed as input to our model.
+    - We only add a global average pooling layer and a fully connected layer, where the latter contains one node for each dog category and is equipped with a softmax.
+
+3. Finally, an Inceptionv3 model was used to achieve further gains in accuracy of the model
+    - A couple of pooling and dense layers were added before the softmax layer, after the output from Inception CNN model.
+    - This enables us to reduce the number of features and link it to the output in a step-wise fashion so that we don't loose out information while going from 2000 nodes to the final 133 output classes.
+    - Dropout is added to ensure we don't rely on specific nodes too heavily and would handle overfitting which would be essential for the problem considering that there are 133 classes.
+    - This architecture is suitable because we are using the output of a powerful pretrained network in Inceptionv3 and distilling the information down to our particular use case, all the while ensuring that we don't overfit for particular nuanced characteristics of certain images
+    - This model was able to achieve a ~78% accuracy on the test set - achieving 80x the baseline!! 
+
+**Steps for improving the implementation**
+The implementation can be further improved by applying some data augmentation techniques and trying out GANs for the problem. This would lead to more training data, which in turn would improve the generalizability of the model.
+
+##### Results
+- The Inceptionv3 model was able to obtain an accuracy of 78% on the test set in the classification task. This was translated to an app that an end user can take to perform dog breed classification on their image of choice.
+
+For more details please refer to the ipynb notebook with the steps of the process documented. Please refer to the steps to get the notebook up and running below
 
 ### Instructions to get the notebook running
 
@@ -101,6 +159,14 @@ jupyter notebook dog_app.ipynb
 ### Prerequisites
 
 Please refer to the ```requirements.txt``` file for packages that are required for executing the app and install using pip.
+
+## Conclusion
+
+### Summary of solution
+An Inceptionv3 model was used to accomplish this task and the app created is able to classify images provided by the user into a dog breed with ~78% accuracy
+
+### Potential Improvements
+We can try to improve the performance of the model by trying caching of the app and model and deploying it on a server. I plan to implement this in further iterations of the app in the future. Also, to improve the prediction task, GANs and data augmentation can be tried out which would give the model more data for training and improve the generalizability of the model.
 
 ## Acknowledgments and Inspiration
 
