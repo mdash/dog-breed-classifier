@@ -90,17 +90,14 @@ The training dataset consisted of the following:
     - There are 6680 training images
     - There are 835 validation images.
     - There are 836 test images.
-- The color images in the input dataset are converted to 4D tensora suitable for supplying to a Keras CNN.
-    - The image is loaded and resized to a square image that is $224 \times 224$ pixels.
+- The color images in the input dataset are converted to 4D tensor suitable for supplying to a Keras CNN.
+    - The image is loaded and resized to a square image that is 224 x 224 pixels.
     - Next, the image is converted to an array, which is then resized to a 4D tensor.
     - In this case, since we are working with color images, each image has three channels.
-    - The output tensor for an image has the dimensions as specified below
-    $$
-    (1, 224, 224, 3).
-    $$
+    - The output tensor for an image has the dimensions of 1 x 224 x 224 x 3
 - Getting the 4D tensor ready for ResNet-50, and for any other pre-trained model in Keras, requires some additional processing.
     - First, the RGB image is converted to BGR by reordering the channels.
-    - All pre-trained models have the additional normalization step that the mean pixel (expressed in RGB as $[103.939, 116.779, 123.68]$ and calculated from all pixels in all images in ImageNet) must be subtracted from every pixel in each image
+    - All pre-trained models have the additional normalization step that the mean pixel (expressed in RGB as (103.939, 116.779, 123.68) and calculated from all pixels in all images in ImageNet) must be subtracted from every pixel in each image
 - The images were also rescaled by dividing every pixel in every image by 255
 
 **Implementation of solution**
