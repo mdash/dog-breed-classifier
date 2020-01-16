@@ -64,7 +64,7 @@ def path_to_tensor(img_path):
 
 # @st.cache
 def ResNet50_predict_labels(img_path):
-   """
+    """
     Returns prediction of image category based on ResNet50 model trained on
     the ImageNet dataset.
 
@@ -78,7 +78,6 @@ def ResNet50_predict_labels(img_path):
     integer
         Category classification of the provided image
     """
-    # 
 
     ResNet50_model = init_resnet50()
     img = preprocess_input(path_to_tensor(img_path))
@@ -87,7 +86,7 @@ def ResNet50_predict_labels(img_path):
 
 # @st.cache
 def dog_detector(img_path):
-   """
+    """
     Returns True if dog is detected in the specified image and False otherwise.
     Uses ResNet50 model trained on the ImageNet dataset for this.
 
@@ -108,7 +107,7 @@ def dog_detector(img_path):
 
 # @st.cache
 def face_detector(img_path):
-   """
+    """
     Returns True if dog is detected in the specified image and False otherwise.
     Uses ResNet50 model trained on the ImageNet dataset for this.
 
@@ -132,14 +131,14 @@ def face_detector(img_path):
 
 # @st.cache
 def Inception_predict_breed(img_path, Inception_model, dog_names):
-   """
+    """
     Predict the breed of dog using Inceptionv3 pre-trained model
 
     Parameters
     ----------
     img_path
         Path to the image file
-    
+
     Inception_model
         Pretrained Inception model (TensorFlow/Keras base)
 
@@ -165,7 +164,7 @@ def Inception_predict_breed(img_path, Inception_model, dog_names):
 
 # @st.cache
 def predict_dog_breed(img_path, Inception_model, dog_names):
-   """
+    """
     Predict the breed of the dog based on input image and model (Inceptionv3).
     If the input image is detected as a human face or a dog,
     the output is the closest dog breed.
@@ -176,7 +175,7 @@ def predict_dog_breed(img_path, Inception_model, dog_names):
     ----------
     img_path
         Path to the image file
-    
+
     Inception_model
         Pretrained Inception model (TensorFlow/Keras base)
 
@@ -193,21 +192,21 @@ def predict_dog_breed(img_path, Inception_model, dog_names):
         If the specified image isn't a dog or a human, the message asks the user
         to select a different image
     """
-    
+
     # check if input image is dog/human face
     dog_detected = dog_detector(img_path)
     human_detected = face_detector(img_path)
     image = Image.open(img_path)
-    
+
     # perform prediction only if image is detected as dog or face
     if dog_detected or human_detected:
         dog_breed = Inception_predict_breed(img_path, Inception_model, dog_names)
         dog_breed = dog_breed[dog_breed.find('.')+1:]
-        dog_breed = dog_breed.replace('_'," ")
+        dog_breed = dog_breed.replace('_', " ")
         message_string = ('The photo is of a ' + dog_breed) if dog_detected\
                          else ('The face in the photo looks like a ' + dog_breed)
         # print(message_string)
-    
+
     # ask user to select different image if not dog or human face
     else:
         message_string = "Error: The image doesn't seem to be that of a human or a dog. Please try a different image" 
@@ -216,7 +215,7 @@ def predict_dog_breed(img_path, Inception_model, dog_names):
 
 
 def get_subfolder_names():
-   """
+    """
     Get a list of all subfolders in the root directory of the py file.
 
     Parameters
@@ -236,7 +235,7 @@ def get_subfolder_names():
 
 
 def get_file_names(subfolder_name):
-   """
+    """
     Get a list of all files in the specified input directory.
 
     Parameters
@@ -255,8 +254,9 @@ def get_file_names(subfolder_name):
     file_list = next(os.walk(cwd + "\\" + subfolder_name))[2]
     return file_list
 
+
 def load_model_labels():
-   """
+    """
     Predict the breed of the dog based on input image and model (Inceptionv3).
     If the input image is detected as a human face or a dog,
     the output is the closest dog breed.
@@ -289,7 +289,7 @@ def load_model_labels():
     with open('dog_names.pkl', 'rb') as dog_names_file:
         dog_names = pickle.load(dog_names_file)
 
-    ### Import model
+    # Import model
     with open('saved_models\inception_model.json', 'rb') as model_json_file:
         Inception_model = model_from_json(model_json_file.read())
 
@@ -297,6 +297,7 @@ def load_model_labels():
     Inception_model.load_weights('saved_models\weights.best.Inception.hdf5')
 
     return dog_names, Inception_model
+
 
 def main():
 
@@ -343,3 +344,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
