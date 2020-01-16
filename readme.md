@@ -27,15 +27,17 @@ To get a copy of the project up and running on your local machine:
 
 4. This should open up a browser window with the app running on it.
 
-5. Use the dropdown on the app to choose any of the sample images from the ```images_temp``` folder to test out the app. See the image below for a snapshot of the folder and image selection pane.
+5. If this is the first app run, Please give the app a few minutes to download the pretrained models from TensorFlow. Keep a close watch on your terminal window for download progress before using the app.
+
+6. Use the dropdown on the app to choose any of the sample images from the ```images_temp``` folder to test out the app. See the image below for a snapshot of the folder and image selection pane.
 
     ![alt text](./Documentation_app_1.PNG "Dropdown Image Select")
 
-6. The app takes some time to load and classify the image. A loading icon will be shown on the top left corner of your browser while the app is loading and classifying the image. 
+7. The app takes some time to load and classify the image. A loading icon will be shown on the top left corner of your browser while the app is loading and classifying the image. 
 
     ![alt text](./Documentation_app_2.PNG "Loading")
 
-7. Please wait until the output text is printed below the image. E.g. for the reference image below the predicted dog breed "Golden retriever" is printed below the image after it is loaded.
+8. Please wait until the output text is printed below the image. E.g. for the reference image below the predicted dog breed "Golden retriever" is printed below the image after it is loaded.
 
     ![alt text](./Documentation_app_3.PNG "Successful Classification!")    
 
