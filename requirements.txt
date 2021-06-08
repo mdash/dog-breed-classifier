@@ -2,7 +2,7 @@ streamlit==0.51.0
 numpy==1.17.4
 Keras==2.2.4
 pandas==0.25.3
-Pillow==6.2.1
+Pillow==8.2.0
 opencv-python
 h5py
 matplotlib
